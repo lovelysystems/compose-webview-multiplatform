@@ -121,9 +121,10 @@ class WKNavigationDelegate(
         KLogger.info {
             "Outer decidePolicyForNavigationAction: $url $isRedirect $decidePolicyForNavigationAction"
         }
+        val isInterceptable = decidePolicyForNavigationAction.targetFrame?.mainFrame ?: true
         if (url != null && !isRedirect &&
             navigator.requestInterceptor != null &&
-            decidePolicyForNavigationAction.targetFrame?.mainFrame == true
+            isInterceptable
         ) {
             navigator.requestInterceptor.apply {
                 val request = decidePolicyForNavigationAction.request
