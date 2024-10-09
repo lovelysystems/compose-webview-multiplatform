@@ -19,4 +19,8 @@ data class WebViewError(
      * The error that was reported.
      */
     val description: String,
+    /**
+     * Whether the error came from the main frame.
+     */
+    val isFromMainFrame: Boolean,
 )

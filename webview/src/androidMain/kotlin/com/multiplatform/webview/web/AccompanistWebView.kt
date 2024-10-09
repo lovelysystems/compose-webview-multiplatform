@@ -324,8 +324,9 @@ open class AccompanistWebViewClient : WebViewClient() {
         if (error != null) {
             state.errorsForCurrentRequest.add(
                 WebViewError(
-                    error.errorCode,
-                    error.description.toString(),
+                    code = error.errorCode,
+                    description = error.description.toString(),
+                    isFromMainFrame = request?.isForMainFrame ?: false,
                 ),
             )
         }
@@ -465,7 +466,11 @@ open class AccompanistWebChromeClient : WebChromeClient() {
             }
 
             if (androidPermission != null) {
-                if (ContextCompat.checkSelfPermission(context, androidPermission) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(
+                        context,
+                        androidPermission
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     grantedPermissions.add(resource)
                     KLogger.d {
                         "onPermissionRequest permission [$androidPermission] was already granted for resource [$resource]"
