@@ -247,5 +247,9 @@ sealed class PlatformWebSettings {
          * Whether the vertical scroll indicator is visible. The default value is {@code true}.
          */
         var showVerticalScrollIndicator: Boolean = true,
+        /**
+         * Whether the a user gesture is required to play media. The default is {@code true}.
+         */
+        var mediaPlaybackRequiresUserGesture: Boolean = true,
     ) : PlatformWebSettings()
 }
