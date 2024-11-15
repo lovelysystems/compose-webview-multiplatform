@@ -398,6 +398,12 @@ open class AccompanistWebChromeClient : WebChromeClient() {
         internal set
     private var lastLoadedUrl = ""
 
+    override fun getDefaultVideoPoster(): Bitmap? {
+        return if (state.webSettings.androidWebSettings.hideDefaultVideoPoster) {
+            Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
+        } else super.getDefaultVideoPoster()
+    }
+
     override fun onReceivedTitle(
         view: WebView,
         title: String?,
