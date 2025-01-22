@@ -7,12 +7,13 @@ plugins {
     id("org.jetbrains.dokka")
     id("com.vanniktech.maven.publish")
     kotlin("plugin.serialization")
+    kotlin("plugin.compose")
 }
 
 kotlin {
 //    explicitApi = ExplicitApiMode.Strict
 
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishLibraryVariants("release")
@@ -33,7 +34,7 @@ kotlin {
     }
 
     sourceSets {
-        val coroutinesVersion = extra["coroutines.version"] as String
+        val coroutinesVersion = "1.8.0"
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)

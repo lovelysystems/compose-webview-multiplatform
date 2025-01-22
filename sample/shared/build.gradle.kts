@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.compose")
     id("com.android.library")
     id("org.jetbrains.kotlin.plugin.atomicfu")
+    kotlin("plugin.compose")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -31,7 +32,7 @@ kotlin {
     }
 
     sourceSets {
-        val coroutinesVersion = extra["coroutines.version"] as String
+        val coroutinesVersion = "1.8.0"
         val voyagerVersion = "1.0.0-rc10"
 
         val commonMain by getting {
