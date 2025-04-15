@@ -10,6 +10,7 @@ import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
@@ -182,12 +183,19 @@ fun AccompanistWebView(
                 this.setLayerType(state.webSettings.androidWebSettings.layerType, null)
 
                 settings.apply {
-                    state.webSettings.let {
-                        javaScriptEnabled = it.isJavaScriptEnabled
-                        userAgentString = it.customUserAgentString
-                        allowFileAccessFromFileURLs = it.allowFileAccessFromFileURLs
-                        allowUniversalAccessFromFileURLs = it.allowUniversalAccessFromFileURLs
-                        setSupportZoom(it.supportZoom)
+                    state.webSettings.let { stateSettings ->
+                        javaScriptEnabled = stateSettings.isJavaScriptEnabled
+                        // customUserAgentString overrides the default completely
+                        if (stateSettings.customUserAgentString != null) {
+                            userAgentString = stateSettings.customUserAgentString
+                        // applicationNameForUserAgent "extends" the default user agent
+                        } else if (stateSettings.applicationNameForUserAgent != null) {
+                            userAgentString =
+                                "${WebSettings::getDefaultUserAgent} ${stateSettings.applicationNameForUserAgent}"
+                        }
+                        allowFileAccessFromFileURLs = stateSettings.allowFileAccessFromFileURLs
+                        allowUniversalAccessFromFileURLs = stateSettings.allowUniversalAccessFromFileURLs
+                        setSupportZoom(stateSettings.supportZoom)
                     }
 
                     state.webSettings.androidWebSettings.let {
@@ -466,7 +474,11 @@ open class AccompanistWebChromeClient : WebChromeClient() {
             }
 
             if (androidPermission != null) {
-                if (ContextCompat.checkSelfPermission(context, androidPermission) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(
+                        context,
+                        androidPermission
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     grantedPermissions.add(resource)
                     KLogger.d {
                         "onPermissionRequest permission [$androidPermission] was already granted for resource [$resource]"

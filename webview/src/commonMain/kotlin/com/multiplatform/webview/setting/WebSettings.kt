@@ -19,10 +19,17 @@ class WebSettings {
     var isJavaScriptEnabled = true
 
     /**
-     * WebView's user-agent string.
+     * WebView's user-agent string. Completely overrides the default user-agent string.
      * Default is null.
      */
     var customUserAgentString: String? = null
+
+    /**
+     * The application name to be used in the user agent string. Appended to the end of the
+     * default user agent string.
+     * Default is null.
+     */
+    var applicationNameForUserAgent: String? = null
 
     /**
      * Set the zoom level of the WebView.

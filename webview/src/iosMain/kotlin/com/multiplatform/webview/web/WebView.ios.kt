@@ -54,7 +54,8 @@ actual class PlatformWebViewParams
 
 /** Default WebView factory for iOS. */
 @OptIn(ExperimentalForeignApi::class)
-actual fun defaultWebViewFactory(param: WebViewFactoryParam) = WKWebView(frame = CGRectZero.readValue(), configuration = param.config)
+actual fun defaultWebViewFactory(param: WebViewFactoryParam) =
+    WKWebView(frame = CGRectZero.readValue(), configuration = param.config)
 
 /**
  * iOS WebView implementation.
@@ -105,6 +106,9 @@ fun IOSWebView(
                         state.webSettings.allowUniversalAccessFromFileURLs,
                         forKey = "allowUniversalAccessFromFileURLs",
                     )
+                    state.webSettings.applicationNameForUserAgent?.let {
+                        applicationNameForUserAgent = it
+                    }
                 }
             factory(WebViewFactoryParam(config)).apply {
                 onCreated(this)
@@ -123,9 +127,9 @@ fun IOSWebView(
                         (it.iOSWebSettings.backgroundColor ?: it.backgroundColor).toUIColor()
                     val scrollViewColor =
                         (
-                            it.iOSWebSettings.underPageBackgroundColor
-                                ?: it.backgroundColor
-                        ).toUIColor()
+                                it.iOSWebSettings.underPageBackgroundColor
+                                    ?: it.backgroundColor
+                                ).toUIColor()
                     setOpaque(it.iOSWebSettings.opaque)
                     if (!it.iOSWebSettings.opaque) {
                         setBackgroundColor(backgroundColor)
