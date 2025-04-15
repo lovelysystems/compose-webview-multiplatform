@@ -191,7 +191,7 @@ fun AccompanistWebView(
                         // applicationNameForUserAgent "extends" the default user agent
                         } else if (stateSettings.applicationNameForUserAgent != null) {
                             userAgentString =
-                                "${WebSettings::getDefaultUserAgent} ${stateSettings.applicationNameForUserAgent}"
+                                "${WebSettings.getDefaultUserAgent(context)} ${stateSettings.applicationNameForUserAgent}"
                         }
                         allowFileAccessFromFileURLs = stateSettings.allowFileAccessFromFileURLs
                         allowUniversalAccessFromFileURLs = stateSettings.allowUniversalAccessFromFileURLs
